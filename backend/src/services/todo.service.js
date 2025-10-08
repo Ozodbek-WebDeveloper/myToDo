@@ -6,9 +6,16 @@ class todoService {
     return res;
   }
 
-  async getAll() {
-    const res = await todoModel.find();
-    return res;
+  async paging(start, end, filter) {
+    const res = await todoModel
+      .find(filter)
+      .sort({
+        createdAt: -1,
+      })
+      .skip(start)
+      .limit(end);
+    const total = await todoModel.countDocuments();
+    return { total, res };
   }
 
   async findOne(id) {

@@ -14,7 +14,14 @@ class todoController {
 
   async getAll(req, res) {
     try {
-      const data = await todoService.getAll();
+      const { page, size, priority, isCompleted } = req.body;
+      const start = (page - 1) * size;
+
+      const filter = {};
+      if (isCompleted !== undefined) filter.isCompleted = isCompleted;
+      if (priority) filter.priority = priority;
+
+      const data = await todoService.paging(start, size, filter);
       res.status(200).json(data);
     } catch (error) {
       res.status(500).json(error);
