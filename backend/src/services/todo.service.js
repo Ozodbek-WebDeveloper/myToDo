@@ -26,6 +26,10 @@ class todoService {
     const res = await todoModel.findByIdAndUpdate(id, body, { new: true });
     return res;
   }
+
+  async delete(id) {
+    return await todoModel.findByIdAndDelete(id);
+  }
 }
 
 module.exports = new todoService();
