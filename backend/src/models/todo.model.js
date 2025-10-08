@@ -1,0 +1,14 @@
+const { Schema, model } = require("mongoose");
+
+const todoSchema = new Schema(
+  {
+    title: { type: String, required: true, trim: true },
+    description: { type: String, trim: true },
+    isCompleted: { type: Boolean, default: false },
+    priority: { type: String, enum: ["low", "medium", "high"], default: "low" },
+    deadline: { type: Date, default: Date.now },
+  },
+  { timestamps: true }
+);
+
+module.exports = model("todo", todoSchema);
