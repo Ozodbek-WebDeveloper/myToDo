@@ -1,13 +1,16 @@
 const express = require("express");
+require("dotenv").config();
 const { default: mongose } = require("mongoose");
 const todoRoute = require("./src/router/todo.route");
 const authRoute = require("./src/router/auth.route");
-require("dotenv").config();
+const authMiddleware = require("./src/middleware/auth.Middleware");
+const cookieParser = require("cookie-parser");
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 // routes
-app.use("/api", todoRoute);
 app.use("/api/auth", authRoute);
+app.use("/api", authMiddleware.verifyToken, todoRoute);
 
 const port = process.env.PORT;
 const start = async () => {

@@ -2,6 +2,7 @@ const { Schema, model } = require("mongoose");
 const { TODO_PIORITY } = require("../enums/todo.enum");
 const todoSchema = new Schema(
   {
+    auther: { type: Schema.ObjectId, ref: "user", required: true },
     title: { type: String, required: true, trim: true },
     description: { type: String, trim: true },
     isCompleted: { type: Boolean, default: false },

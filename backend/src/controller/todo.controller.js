@@ -3,8 +3,9 @@ const todoService = require("../services/todo.service");
 class todoController {
   async create(req, res) {
     try {
+      const auther = req.user.id;
       const data = req.body;
-      const post = await todoService.create(data);
+      const post = await todoService.create(auther, data);
       res.status(200).json(post);
     } catch (error) {
       res.status(500).json(error);
@@ -16,10 +17,11 @@ class todoController {
     try {
       const { page, size, priority, isCompleted } = req.body;
       const start = (page - 1) * size;
-
+      const auther = req.user.id;
       const filter = {};
       if (isCompleted !== undefined) filter.isCompleted = isCompleted;
       if (priority) filter.priority = priority;
+      if (auther) filter.auther = auther;
 
       const data = await todoService.paging(start, size, filter);
       res.status(200).json(data);

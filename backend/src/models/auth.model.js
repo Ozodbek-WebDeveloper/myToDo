@@ -11,8 +11,8 @@ const authSchema = new Schema(
     avatar: { type: String, default: "" },
     roles: {
       type: String,
-      enum: USER_ROLES,
-      default: "user",
+      enum: Object.values(USER_ROLES),
+      default: USER_ROLES.USER,
     },
     phone: { type: String },
     address: { type: String },

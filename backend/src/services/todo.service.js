@@ -1,8 +1,8 @@
 const todoModel = require("../models/todo.model");
 
 class todoService {
-  async create(data) {
-    const res = await todoModel.create(data);
+  async create(auther, data) {
+    const res = await todoModel.create({ auther: auther, ...data });
     return res;
   }
 
@@ -14,7 +14,7 @@ class todoService {
       })
       .skip(start)
       .limit(end);
-    const total = await todoModel.countDocuments();
+    const total = await todoModel.countDocuments({ auther: filter.auther });
     return { total, res };
   }
 

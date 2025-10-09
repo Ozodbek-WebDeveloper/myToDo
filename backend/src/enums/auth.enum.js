@@ -1,3 +1,7 @@
 module.exports = {
-  USER_ROLES: ["user", "admin", "moderator"],
+  USER_ROLES: {
+    USER: "user",
+    ADMIN: "admin",
+    MODERATOR: "moderator",
+  },
 };
