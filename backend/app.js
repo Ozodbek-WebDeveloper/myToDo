@@ -5,7 +5,15 @@ const todoRoute = require("./src/router/todo.route");
 const authRoute = require("./src/router/auth.route");
 const authMiddleware = require("./src/middleware/auth.Middleware");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
 const app = express();
+
+app.use(
+  cors({
+    origin: "http://localhost:4200",
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(cookieParser());
 // routes
