@@ -4,7 +4,7 @@ const tokenMolde = require("../models/token.molde");
 class tokenService {
   generateToken(payload) {
     const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_KEY, {
-      expiresIn: "15m",
+      expiresIn: "1m",
     });
     const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_KEY, {
       expiresIn: "30d",
@@ -25,7 +25,7 @@ class tokenService {
   }
 
   async removeToken(refreshToken) {
-    return await tokenMolde.findOneAndDelete(refreshToken);
+    return await tokenMolde.findOneAndDelete({refreshToken});
   }
 
   async findToken(refreshToken) {
@@ -36,14 +36,14 @@ class tokenService {
     try {
       return jwt.verify(refreshToken, process.env.REFRESH_TOKEN_KEY);
     } catch (error) {
-      console.log(error);
+      return null
     }
   }
   async validateAccessToken(accsecTokens) {
     try {
       return jwt.verify(accsecTokens, process.env.ACCESS_TOKEN_KEY);
     } catch (error) {
-     return console.log(error);
+      return null
     }
   }
 }
