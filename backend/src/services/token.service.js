@@ -43,7 +43,7 @@ class tokenService {
     try {
       return jwt.verify(accsecTokens, process.env.ACCESS_TOKEN_KEY);
     } catch (error) {
-      console.log(error);
+     return console.log(error);
     }
   }
 }
