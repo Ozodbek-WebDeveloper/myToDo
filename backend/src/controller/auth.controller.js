@@ -4,7 +4,6 @@ const tokenService = require("../services/token.service");
 class authController {
   async register(req, res) {
     try {
-
       const { name, email, password } = req.body;
       const data = await authService.register(name, email, password);
       res.cookie("refreshToken", data.token.refreshToken, {
@@ -63,6 +62,20 @@ class authController {
     try {
       const id = req.params.id;
       const data = await authService.activated(id);
+      res.status(200).json(data);
+    } catch (error) {
+      res.status(500).json(error);
+      console.log(error);
+    }
+  }
+
+  async me(req, res) {
+    try {
+      const authHeader = req.headers.authorization;
+      const token = authHeader.split(" ")[1];
+      const decode = await tokenService.validateAccessToken(token);
+
+      const data = await authService.getMe(decode.id);
       res.status(200).json(data);
     } catch (error) {
       res.status(500).json(error);

@@ -7,4 +7,5 @@ route.post("/login", authController.login);
 route.post("/logout", authController.logout);
 route.get("/refresh", authController.refresh);
 route.get("/activeted/:id", authController.activeted);
+route.get("/me", authController.me);
 module.exports = route;

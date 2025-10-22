@@ -1,3 +1,3 @@
 module.exports = {
-  TODO_PIORITY: ["low", "meduim", "high"],
+  TODO_PIORITY: ["low", "medium", "hight"],
 };

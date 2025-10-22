@@ -30,6 +30,13 @@ class todoService {
     if (!id) {
       throw new Error("Id not found");
     }
+
+    Object.keys(body).forEach((key) => {
+      if (body[key] === "" || body[key] === null) {
+        delete body[key];
+        throw new Error("todo validation failed");
+      }
+    });
     const res = await todoModel.findByIdAndUpdate(id, body, { new: true });
     return res;
   }
