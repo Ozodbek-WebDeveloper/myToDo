@@ -82,6 +82,20 @@ class authController {
       console.log(error);
     }
   }
+
+  async editMe(req, res) {
+    try {
+      // console.log(req);
+      
+      const file = req.files?.avatar;
+      const id = req.params.id;
+      const body = req.body;
+      const data = await authService.edit(id, body, file);
+      return res.status(200).json(data);
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  }
 }
 
 module.exports = new authController();

@@ -3,6 +3,7 @@ const authModel = require("../models/auth.model");
 const bcrypt = require("bcrypt");
 const tokenService = require("./token.service");
 const mailService = require("./mail.service");
+const fileService = require("./file.service");
 
 class authService {
   async register(name, email, password) {
@@ -101,6 +102,44 @@ class authService {
     const user = await authModel.findById(id);
     return user;
   }
+
+
+
+
+
+
+async edit(id, user, file) {
+  try {
+    if (file) {
+      const fileName = await fileService.save(file);
+      user.avatar = fileName;
+    }
+
+    const res = await authModel.findByIdAndUpdate(
+      id,
+      { ...user },
+      { new: true }
+    );
+    return res;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
+
+
+
+
+
+  // async edit(id, user, file) {
+  //   const fileName = fileService.save(file);
+  //   const res = await authModel.findByIdAndUpdate(
+  //     id,
+  //     { ...user, avatar: fileName },
+  //     { new: true }
+  //   );
+  //   return res;
+  // }
 }
 
 module.exports = new authService();
