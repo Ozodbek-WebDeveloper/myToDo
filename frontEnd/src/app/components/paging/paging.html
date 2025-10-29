@@ -1,0 +1,15 @@
+<div class="paging flex gap-2 font-bold items-center justify-end p-4">
+  <fa-icon
+    (click)="prevPage()"
+    class="cursor-pointer bg-gray-200 py-2 px-2.5 rounded-full"
+    [icon]="faLeft"
+    [ngClass]="{ '!cursor-not-allowed  opacity-50': pagin.currentPage === 1 }"
+  />
+  <span class="text-md text-white">{{ pagin.currentPage }}/{{ pagin.totalPage }}</span>
+  <fa-icon
+    (click)="nextPage()"
+    class="cursor-pointer bg-gray-200 py-2 px-2.5 rounded-full"
+    [icon]="faRight"
+    [ngClass]="{ '!cursor-not-allowed  opacity-50': pagin.currentPage === pagin.totalPage }"
+  />
+</div>

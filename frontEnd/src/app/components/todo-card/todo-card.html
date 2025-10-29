@@ -1,0 +1,60 @@
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 p-6">
+  @for (todo of todos.res; track todo._id){
+  <div
+    class="bg-white shadow-md rounded-2xl border-t-4 p-4 cursor-pointer transition hover:shadow-lg"
+    [ngClass]="{
+      'border-green-400': todo.priority === 'low',
+      'border-yellow-400': todo.priority === 'medium',
+      'border-pink-400': todo.priority === 'hight'
+    }"
+  >
+    <div class="flex items-center justify-between text-lg mb-2">
+      <h3 class="font-semibold text-gray-800">
+        {{ todo.title }}
+      </h3>
+      <div class="flex  items-center  gap-2" >
+        <fa-icon (click)="editTodo(todo._id)" class="text-blue-600" title="editing" [icon]="faPen" />
+        <fa-icon
+          (click)="deleteTodo(todo._id)"
+          class="text-red-600"
+          title="delete"
+          [icon]="faDelete"
+        ></fa-icon>
+      </div>
+    </div>
+
+    <div class="mb-2 px-3">
+      <span>{{ todo.description }}</span>
+    </div>
+    <div class="flex items-center gap-2">
+      <span
+        class="px-3 py-1 text-sm rounded-full font-medium"
+        [ngClass]="{
+          'bg-green-100 text-green-600': todo.priority === 'low',
+          'bg-yellow-100 text-yellow-600': todo.priority === 'medium',
+          'bg-pink-100 text-pink-600': todo.priority === 'hight'
+        }"
+      >
+        {{ todo.priority }}
+      </span>
+      <div class="flex items-center text-gray-500 text-sm">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-4 w-4 mr-1"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+        {{ todo.deadline  | date:'dd/MM/yyyy' }}
+      </div>
+    </div>
+  </div>
+  }
+</div>

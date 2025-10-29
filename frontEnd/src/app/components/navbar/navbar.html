@@ -1,0 +1,41 @@
+<nav
+  class="flex items-center justify-between border-b text-white px-6 py-3 rounded-lg shadow-md mb-4"
+>
+  <!-- Logo -->
+  <div class="flex items-center gap-2">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="h-6 w-6 text-yellow-400"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M12 8c-1.657 0-3 1.343-3 3 0 1.306.835 2.418 2 2.829V18h2v-4.171A2.992 2.992 0 0015 11c0-1.657-1.343-3-3-3z"
+      />
+    </svg>
+    <span class="text-lg font-semibold tracking-wide">Todo App</span>
+  </div>
+
+  <!-- Right section -->
+
+  <div class="flex items-center gap-5">
+    <!-- Profile -->
+    <div class="flex items-center gap-1 transition">
+      <img
+        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnSA1zygA3rubv-VK0DrVcQ02Po79kJhXo_A&s"
+        alt="user avatar"
+        class="w-8 h-8 rounded-full border border-gray-500"
+      />
+      <p-tieredMenu #menu [model]="items" [popup]="true"></p-tieredMenu>
+      <span
+        (click)="menu.toggle($event)"
+        class="text-green-400 text-lg cursor-pointer hover:text-green-500"
+        >ozodbek</span
+      >
+    </div>
+  </div>
+</nav>

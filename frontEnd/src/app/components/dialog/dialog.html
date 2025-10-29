@@ -1,0 +1,49 @@
+<div (click)="close()" class="fixed inset-0 flex items-center justify-center bg-black/60 z-50">
+  <div
+    (click)="$event.stopPropagation()"
+    class="bg-white shadow-xl rounded-2xl p-6 w-full max-w-md mx-4"
+  >
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-2xl font-semibold text-gray-800">My Todo List</h2>
+      <button
+        (click)="close()"
+        class="text-gray-500 cursor-pointer hover:text-gray-700 text-2xl leading-none"
+      >
+        <fa-icon [icon]="faClose" />
+      </button>
+    </div>
+
+    <!-- Input -->
+    <div class="flex flex-col gap-2 mb-4">
+      <input
+        type="text"
+        placeholder="Add a new task title..."
+        class="flex-1 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        [(ngModel)]="createTodo.title"
+      />
+      <textarea
+        placeholder="Add a new task..."
+        class="flex-1 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        [(ngModel)]="createTodo.description"
+      ></textarea>
+      <select
+        id="priority"
+        name="priority"
+        class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        [(ngModel)]="createTodo.priority"
+      >
+        <option value="">Tanlang...</option>
+        <option value="low" class="text-green-600">Low</option>
+        <option value="medium" class="text-yellow-600">Medium</option>
+        <option value="hight" class="text-red-600">High</option>
+      </select>
+      <button
+        (click)="emitTodo()"
+        class="bg-blue-500 cursor-pointer text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
+      >
+        {{ isEditing ? 'Edit' : 'Add' }}
+      </button>
+    </div>
+  </div>
+</div>
