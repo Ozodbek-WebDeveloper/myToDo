@@ -17,7 +17,11 @@ export const routes: Routes = [
     },
     {
         path: 'profil',
-        loadComponent: () => import('./pages/profil/profil').then(c => c.Profil)
+        loadComponent: () => import('./pages/profil/profil').then(c => c.Profil),
+    },
+    {
+        path: 'activated/:id',
+        loadComponent: () => import('./pages/activated-page/activated-page').then(c => c.ActivatedPage)
     },
     {
         path: '**',
