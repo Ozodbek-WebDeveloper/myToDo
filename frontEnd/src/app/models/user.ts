@@ -5,7 +5,8 @@ export interface IUser {
 }
 
 export interface IgetUser {
-    avatar?: string | null,
+    _id?: string  | null;
+    avatar?: string |File | null,
     email?: string | null,
     isActive?: boolean,
     name?: string | null,

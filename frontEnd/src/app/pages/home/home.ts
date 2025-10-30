@@ -178,5 +178,4 @@ export class Home implements OnInit {
     this.route.navigate(['/login'])
     localStorage.removeItem('accessToken')
   }
-
 }

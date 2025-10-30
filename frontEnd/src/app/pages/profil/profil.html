@@ -2,30 +2,20 @@
   <div class="profile-container">
     <div class="profile-card">
       <div class="profile-header reletive">
-        <img
-          [src]="
-            user.avatar ||
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnSA1zygA3rubv-VK0DrVcQ02Po79kJhXo_A&s'
-          "
-          alt="User Avatar"
-          class="avatar"
-        />
-        @if (isEditing) {<fa-icon
-            (click)="AvatarClick()"
+        <img [src]="preview || (user.avatar? baseApi +  user.avatar :'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnSA1zygA3rubv-VK0DrVcQ02Po79kJhXo_A&s' ) 
+            
+          " alt="User Avatar" class="avatar" />
+        @if (isEditing) {<fa-icon (click)="AvatarClick()"
           class="text-blue-500 !texr-xs absolute right-28 bottom-12 border bg-white py-1 px-1 rounded-full cursor-pointer"
-          [icon]="faPen"
-        />}
+          [icon]="faPen" />}
 
 
         <input type="file" #fileInput hidden accept="images/*" (change)="selectedFile($event)">
 
         <h2>{{ user.name }}</h2>
         <p class="role">
-          {{ user.roles }} @if(!isEditing){<fa-icon
-            (click)="editUser()"
-            class="text-blue-500 cursor-pointer"
-            [icon]="faPen"
-          />}
+          {{ user.roles }} @if(!isEditing){<fa-icon (click)="editUser()" class="text-blue-500 cursor-pointer"
+            [icon]="faPen" />}
         </p>
       </div>
 

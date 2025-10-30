@@ -5,7 +5,8 @@ const path = require("path");
 class fileService {
   async save(file) {
     try {
-      const fileName = uuidv4() + ".jpg";
+      const extension = path.extname(file.name)
+      const fileName = uuidv4() + extension;
       const currentDir = __dirname;
       const staticDir = path.join(currentDir, "..", "static");
       const filePath = path.join(staticDir, fileName);
@@ -14,7 +15,7 @@ class fileService {
         fs.mkdirSync(staticDir, { recursive: true });
       }
 
-     file.mv(filePath);
+      await file.mv(filePath);
       return fileName;
     } catch (error) {
       throw new Error(`Error saving file ${error} `);

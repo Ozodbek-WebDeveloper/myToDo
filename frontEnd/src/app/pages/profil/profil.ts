@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { IgetUser } from './../../models/user';
+import { Component, OnInit, ViewChild, ElementRef, } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../service/auth.service';
-import { IgetUser } from '../../models/user';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-profil',
@@ -12,12 +13,12 @@ import { faPen } from '@fortawesome/free-solid-svg-icons';
   styleUrl: './profil.scss'
 })
 export class Profil implements OnInit {
-
   constructor(private auth: AuthService) { }
   @ViewChild('fileInput', { static: false }) fileInput!: ElementRef<HTMLInputElement>;
   ngOnInit(): void {
     this.me()
   }
+  baseApi = environment.baseApi + '/static/'
   user: IgetUser = {
     name: 'John doe',
     email: '@example.com',
@@ -25,7 +26,7 @@ export class Profil implements OnInit {
   };
   isEditing: boolean = false
   faPen = faPen
-
+  preview:string | null = null
   async me() {
     const res = await this.auth.getMe()
     this.user = res
@@ -36,9 +37,11 @@ export class Profil implements OnInit {
     this.isEditing = true
   }
 
-  saveChanges() {
+  async saveChanges() {
+    const userId = this.user._id ?? ''
+    console.log(this.user);
+    const res = await this.auth.editMe(userId, this.user)
     this.isEditing = false
-    console.log('Profile saved');
   }
 
   AvatarClick() {
@@ -53,12 +56,11 @@ export class Profil implements OnInit {
     const file = (event.target as HTMLInputElement).files?.[0]
 
     if (!file) return
-
+    this.user.avatar = file
     const reader = new FileReader()
     reader.onload = (e: any) => {
-      this.user.avatar = e.target.result
-    }
-
+       this.preview = e.target.result;
+    };
     reader.readAsDataURL(file)
   }
 }

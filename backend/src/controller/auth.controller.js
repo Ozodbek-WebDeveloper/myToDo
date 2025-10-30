@@ -85,7 +85,7 @@ class authController {
 
   async editMe(req, res) {
     try {
-      // console.log(req);
+      console.log(req);
       
       const file = req.files?.avatar;
       const id = req.params.id;
@@ -94,6 +94,7 @@ class authController {
       return res.status(200).json(data);
     } catch (error) {
       res.status(500).json(error);
+      console.log(error);
     }
   }
 }

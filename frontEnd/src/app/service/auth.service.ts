@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IUser } from '../models/user';
+import { IgetUser, IUser } from '../models/user';
 import axios from 'axios'
 import { environment } from '../../environments/environment';
 import axiosInstanse from '../api/axios.config'
@@ -42,4 +42,29 @@ export class AuthService {
       console.log(error);
     }
   }
+
+  async editMe(id: string, body: IgetUser) {
+    try {
+      const formData = new FormData()
+      if (body.name) formData.append("name", body.name);
+      if (body.email) formData.append("email", body.email);
+      if (body.roles) formData.append("roles", body.roles);
+      if (body.isActive !== undefined) formData.append("isActive", String(body.isActive));
+      if (body.avatar instanceof File) {
+        formData.append("avatar", body.avatar); 
+      } else if (typeof body.avatar === "string") {
+        formData.append("avatar", body.avatar);
+      }
+      const res = await axios.post(`${environment.apiUrl}/auth/edit/${id}`, formData, {
+        headers: {
+          "Content-Type": 'multipart/form-data'
+        }
+      })
+      return res.data
+    } catch (error) {
+      console.log(error);
+
+    }
+  }
+
 }

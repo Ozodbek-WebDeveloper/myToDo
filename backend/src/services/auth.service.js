@@ -108,23 +108,24 @@ class authService {
 
 
 
-async edit(id, user, file) {
-  try {
-    if (file) {
-      const fileName = await fileService.save(file);
-      user.avatar = fileName;
-    }
+  async edit(id, user, file) {
+    try {
+      if (file) {
+        const fileName = await fileService.save(file);
+        user.avatar = fileName;
+        console.log("Saved file:", fileName);
+      }
 
-    const res = await authModel.findByIdAndUpdate(
-      id,
-      { ...user },
-      { new: true }
-    );
-    return res;
-  } catch (error) {
-    throw new Error(error.message);
+      const res = await authModel.findByIdAndUpdate(
+        id,
+        { ...user },
+        { new: true }
+      );
+      return res;
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
-}
 
 
 
