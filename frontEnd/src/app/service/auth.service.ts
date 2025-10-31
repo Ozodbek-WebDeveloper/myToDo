@@ -3,8 +3,10 @@ import { IgetUser, IUser } from '../models/user';
 import axios from 'axios'
 import { environment } from '../../environments/environment';
 import axiosInstanse from '../api/axios.config'
+import { Auth } from '../state/auth';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+  constructor(private auth: Auth) { }
   async register(user: IUser) {
     try {
       const res = await axios.post(`${environment.apiUrl}/auth/register`, user)
@@ -28,6 +30,7 @@ export class AuthService {
   async logout() {
     try {
       const res = await axios.post(`${environment.apiUrl}/auth/logout`, {}, { withCredentials: true })
+      this.auth.logout()
       return res.data
     } catch (error) {
       console.log(error);
@@ -37,6 +40,7 @@ export class AuthService {
   async getMe() {
     try {
       const res = await axiosInstanse.get('/auth/me')
+      this.auth.login(res.data)
       return res.data
     } catch (error) {
       console.log(error);
@@ -51,7 +55,7 @@ export class AuthService {
       if (body.roles) formData.append("roles", body.roles);
       if (body.isActive !== undefined) formData.append("isActive", String(body.isActive));
       if (body.avatar instanceof File) {
-        formData.append("avatar", body.avatar); 
+        formData.append("avatar", body.avatar);
       } else if (typeof body.avatar === "string") {
         formData.append("avatar", body.avatar);
       }
@@ -68,3 +72,4 @@ export class AuthService {
   }
 
 }
+

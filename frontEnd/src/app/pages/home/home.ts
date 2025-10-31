@@ -27,6 +27,7 @@ export class Home implements OnInit {
 
   ngOnInit(): void {
     this.getTodos()
+    this.auth.getMe()
   }
 
   showDialog: boolean = false
@@ -86,7 +87,7 @@ export class Home implements OnInit {
 
   gotoProfil() {
     console.log('test');
-    
+
     this.route.navigate(['/profil'])
   }
 

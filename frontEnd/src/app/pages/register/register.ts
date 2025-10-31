@@ -4,10 +4,11 @@ import { FormsModule } from '@angular/forms'
 import { AuthService } from '../../service/auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-register',
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink,ButtonModule],
   templateUrl: './register.html',
   styleUrl: './register.scss'
 })

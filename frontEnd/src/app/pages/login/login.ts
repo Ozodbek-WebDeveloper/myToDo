@@ -5,9 +5,10 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { Toast } from "primeng/toast";
 import { MessageService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
 @Component({
   selector: 'app-login',
-  imports: [FormsModule, Toast, RouterLink],
+  imports: [FormsModule, Toast, RouterLink,ButtonModule],
   templateUrl: './login.html',
   styleUrl: './login.scss',
   providers: [MessageService]

@@ -3,6 +3,10 @@ import { CommonModule } from '@angular/common';
 import { TieredMenuModule } from 'primeng/tieredmenu';
 import { ButtonModule } from 'primeng/button';
 import { MenuItem } from 'primeng/api';
+import { Auth } from '../../state/auth';
+import { IgetUser } from '../../models/user';
+import { environment } from '../../../environments/environment';
+// 
 
 @Component({
   selector: 'app-navbar',
@@ -12,7 +16,14 @@ import { MenuItem } from 'primeng/api';
 })
 export class NavbarComponent implements OnInit {
   items: MenuItem[] = [];
-
+  user: IgetUser | null = null
+  baseApi = environment.baseApi + '/static/'
+  
+  constructor(private auth: Auth) {
+    this.auth.user$.subscribe(user => {
+      this.user = user
+    })
+  }
   @Output() logout = new EventEmitter<void>();
   @Output() profil = new EventEmitter<void>();
 
@@ -45,4 +56,5 @@ export class NavbarComponent implements OnInit {
   logoutEmit() {
     this.logout.emit();
   }
+  
 }

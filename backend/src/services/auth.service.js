@@ -96,11 +96,6 @@ class authService {
     return user;
   }
 
-
-
-
-
-
   async edit(id, user, file) {
     try {
       if (file) {

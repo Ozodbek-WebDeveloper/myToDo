@@ -5,10 +5,12 @@ import { AuthService } from '../../service/auth.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { environment } from '../../../environments/environment';
+import { ButtonModule } from 'primeng/button';
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-profil',
-  imports: [FormsModule, FontAwesomeModule],
+  imports: [FormsModule, FontAwesomeModule, ButtonModule, RouterLink],
   templateUrl: './profil.html',
   styleUrl: './profil.scss'
 })
