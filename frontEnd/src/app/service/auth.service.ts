@@ -59,7 +59,7 @@ export class AuthService {
       } else if (typeof body.avatar === "string") {
         formData.append("avatar", body.avatar);
       }
-      const res = await axios.post(`${environment.apiUrl}/auth/edit/${id}`, formData, {
+      const res = await axiosInstanse.post(`/auth/edit/${id}`, formData, {
         headers: {
           "Content-Type": 'multipart/form-data'
         }
@@ -68,6 +68,15 @@ export class AuthService {
     } catch (error) {
       console.log(error);
 
+    }
+  }
+
+  async getAllUser() {
+    try {
+      const res = await axiosInstanse.get('/auth/getUsers')
+      return res.data
+    } catch (error) {
+      console.log(error);
     }
   }
 

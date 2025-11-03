@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TodoCard } from '../../components/todo-card/todo-card';
-import { Ipaging, Itodo } from '../../models/user';
+import { IgetUser, Ipaging, Itodo } from '../../models/user';
 import { TodoService } from '../../service/todo.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 import { Dialog } from '../../components/dialog/dialog';
@@ -28,7 +28,9 @@ export class Home implements OnInit {
   ngOnInit(): void {
     this.getTodos()
     this.auth.getMe()
+    this.getAll()
   }
+
 
   showDialog: boolean = false
   faAdd = faAdd
@@ -45,6 +47,7 @@ export class Home implements OnInit {
     isCompleted: false
   }
   totalPage: number = 0
+  users: IgetUser[] | any = null
   //
   async getTodos() {
     const res = await this.todo.getTodo(this.paging)
@@ -179,4 +182,10 @@ export class Home implements OnInit {
     this.route.navigate(['/login'])
     localStorage.removeItem('accessToken')
   }
+
+  async getAll() {
+    this.users = await this.auth.getAllUser()
+  }
+
+
 }

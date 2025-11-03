@@ -7,13 +7,15 @@ import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { environment } from '../../../environments/environment';
 import { ButtonModule } from 'primeng/button';
 import { RouterLink } from "@angular/router";
+import { UserTable } from '../../components/user-table/user-table';
 
 @Component({
   selector: 'app-profil',
-  imports: [FormsModule, FontAwesomeModule, ButtonModule, RouterLink],
+  imports: [FormsModule, FontAwesomeModule, ButtonModule, RouterLink, UserTable],
   templateUrl: './profil.html',
   styleUrl: './profil.scss'
 })
+
 export class Profil implements OnInit {
   constructor(private auth: AuthService) { }
   @ViewChild('fileInput', { static: false }) fileInput!: ElementRef<HTMLInputElement>;
@@ -28,7 +30,8 @@ export class Profil implements OnInit {
   };
   isEditing: boolean = false
   faPen = faPen
-  preview:string | null = null
+  preview: string | null = null
+  viewPage: number = 0
   async me() {
     const res = await this.auth.getMe()
     this.user = res
@@ -61,7 +64,7 @@ export class Profil implements OnInit {
     this.user.avatar = file
     const reader = new FileReader()
     reader.onload = (e: any) => {
-       this.preview = e.target.result;
+      this.preview = e.target.result;
     };
     reader.readAsDataURL(file)
   }

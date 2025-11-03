@@ -4,41 +4,28 @@
     <div class="flex flex-col justify-between h-full">
       <div class="flex flex-col px-6 py-8 lg:py-0">
         <div class="text-white flex items-center justify-end mb-4">
-          <button
-            (click)="openCreateDialog()"
-            class="border px-3 py-1 flex items-center gap-1 rounded-md cursor-pointer font-bold"
-          >
+          <button (click)="openCreateDialog()"
+            class="border px-3 py-1 flex items-center gap-1 rounded-md cursor-pointer font-bold">
             <fa-icon [icon]="faAdd" />Create
           </button>
         </div>
-        <div
-          class="w-full bg-white rounded-lg shadow dark:border xl:p-0 dark:bg-gray-800 dark:border-gray-700"
-        >
+        <div class="w-full bg-white rounded-lg shadow dark:border xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <ul></ul>
-          <app-todo-card
-            (edit)="findOne($event)"
-            (delete)="deleteTodo($event)"
-            [todos]="pagingDate"
-          ></app-todo-card>
+          <app-todo-card (edit)="findOne($event)" (delete)="deleteTodo($event)" [todos]="pagingDate"
+            [users]="users"></app-todo-card>
         </div>
       </div>
       @if (pagingDate.total > 9) {
-      <app-paging
-        (changePage)="changePage($event)"
-        [pagin]="{ totalPage: totalPage, currentPage: paging.page }"
-      ></app-paging>
+      <app-paging (changePage)="changePage($event)"
+        [pagin]="{ totalPage: totalPage, currentPage: paging.page }"></app-paging>
       }
+
     </div>
   </div>
 </div>
 @if (showDialog) {
-<app-dialog
-  [isEditing]="isEditing"
-  [editDate]="findOneDate"
-  (editTodo)="submitEdit($event)"
-  (closeDialog)="closeDialog()"
-  (addTodo)="createTodo($event)"
-></app-dialog>
+<app-dialog [isEditing]="isEditing" [editDate]="findOneDate" (editTodo)="submitEdit($event)"
+  (closeDialog)="closeDialog()" (addTodo)="createTodo($event)"></app-dialog>
 } @if (confirmDialog) {
 <app-confirm-dialog />
 }

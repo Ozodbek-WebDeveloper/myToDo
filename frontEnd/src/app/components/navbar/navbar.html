@@ -18,7 +18,8 @@
         alt="user avatar" class="w-8 h-8 rounded-full border border-gray-500" />
       <p-tieredMenu #menu [model]="items" [popup]="true"></p-tieredMenu>
       <span (click)="menu.toggle($event)"
-        class="text-green-400 text-lg cursor-pointer hover:text-green-500">{{user?.name}}</span>
+        class="text-green-400 flex flex-col leading-none text-lg cursor-pointer hover:text-green-500">{{user?.name}} <small
+          class="text-gray-400">user</small></span>
     </div>
   </div>
-</nav>  
+</nav>
