@@ -1,12 +1,12 @@
 const todoModel = require("../models/todo.model");
-
+const authEnum = require('../enums/auth.enum')
 class todoService {
   async create(auther, data) {
     const res = await todoModel.create({ auther: auther, ...data });
     return res;
   }
 
-  async paging(start, end, filter) {
+  async paging(start, end, filter, role) {
     const res = await todoModel
       .find(filter)
       .sort({
@@ -14,7 +14,10 @@ class todoService {
       })
       .skip(start)
       .limit(end);
-    const total = await todoModel.countDocuments({ auther: filter.auther });
+    const total = role === authEnum.USER_ROLES.ADMIN ?
+      await todoModel.countDocuments() :
+      await todoModel.countDocuments({ auther: filter.auther });
+
     return { total, res };
   }
 

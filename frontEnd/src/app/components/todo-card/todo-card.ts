@@ -1,10 +1,10 @@
-import { DatePipe, JsonPipe, NgClass } from '@angular/common';
+import { DatePipe, NgClass } from '@angular/common';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 import { faTrash, faPen } from '@fortawesome/free-solid-svg-icons'
 @Component({
   selector: 'app-todo-card',
-  imports: [NgClass, JsonPipe, FontAwesomeModule, DatePipe],
+  imports: [NgClass, FontAwesomeModule, DatePipe],
   templateUrl: './todo-card.html',
   styleUrl: './todo-card.scss',
   standalone: true

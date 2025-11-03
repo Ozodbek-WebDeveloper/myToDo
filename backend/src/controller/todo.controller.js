@@ -1,5 +1,5 @@
 const todoService = require("../services/todo.service");
-
+const authEnum = require('../enums/auth.enum')
 class todoController {
   async create(req, res) {
     try {
@@ -18,12 +18,15 @@ class todoController {
       const { page, size, priority, isCompleted } = req.body;
       const start = (page - 1) * size;
       const auther = req.user.id;
+      const role = req.user.role
+
       const filter = {};
       if (isCompleted !== undefined) filter.isCompleted = isCompleted;
       if (priority) filter.priority = priority;
-      if (auther) filter.auther = auther;
-
-      const data = await todoService.paging(start, size, filter);
+      if (role !== authEnum.USER_ROLES.ADMIN) {
+        filter.auther = auther
+      }
+      const data = await todoService.paging(start, size, filter, role);
       res.status(200).json(data);
     } catch (error) {
       res.status(500).json(error);

@@ -115,20 +115,14 @@ class authService {
     }
   }
 
-
-
-
-
-
-  // async edit(id, user, file) {
-  //   const fileName = fileService.save(file);
-  //   const res = await authModel.findByIdAndUpdate(
-  //     id,
-  //     { ...user, avatar: fileName },
-  //     { new: true }
-  //   );
-  //   return res;
-  // }
+  async getAll() {
+    try {
+      const res = await authModel.find()
+      return res
+    } catch (error) {
+      throw new Error(error.message)
+    }
+  }
 }
 
 module.exports = new authService();
