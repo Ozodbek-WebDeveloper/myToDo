@@ -1,7 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MessageService, SelectItem } from 'primeng/api';
-// import { Product } from '@/domain/product';
-// import { ProductService } from '@/service/productservice';
 import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { CommonModule } from '@angular/common';
@@ -10,75 +8,57 @@ import { SelectModule } from 'primeng/select';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
+import { IgetUser } from '../../models/user';
+import { AuthService } from '../../service/auth.service';
 
-
-export interface Product {
-  id?: string;
-  code?: string;
-  name?: string;
-  description?: string;
-  price?: number;
-  quantity?: number;
-  inventoryStatus?: string;
-  category?: string;
-  image?: string;
-  rating?: number;
-}
 
 @Component({
   selector: 'app-user-table',
   templateUrl: 'user-table.html',
   standalone: true,
-  imports: [TableModule, ToastModule, CommonModule, TagModule, SelectModule, ButtonModule, InputTextModule,FormsModule],
+  imports: [TableModule, ToastModule, CommonModule, TagModule, SelectModule, ButtonModule, InputTextModule, FormsModule],
 })
 export class UserTable implements OnInit {
-
-  products!: Product[];
-
+  @Input() users: IgetUser[] = []
+  @Output() editUser = new EventEmitter<{ id: string, date: IgetUser }>()
+  products!: IgetUser[];
   statuses!: SelectItem[];
+  roles!: { label: string; value: string }[]
+  clonedProducts: { [s: string]: IgetUser } = {};
 
-  clonedProducts: { [s: string]: Product } = {};
+  constructor(private messageService: MessageService, private auth: AuthService) { }
 
-  constructor(private messageService: MessageService) { }
-  
   ngOnInit() {
-    // this.productService.getProductsMini().then((data: any) => {
-    //   this.products = data;
-    // });
-
+    this.products = this.users
     this.statuses = [
-      { label: 'In Stock', value: 'INSTOCK' },
-      { label: 'Low Stock', value: 'LOWSTOCK' },
-      { label: 'Out of Stock', value: 'OUTOFSTOCK' }
+      { label: 'Inactive', value: false },
+      { label: 'Active', value: true },
     ];
+    this.roles = [
+      { label: 'admin', value: 'admin' },
+      { label: 'user', value: 'user' }
+    ]
   }
 
-  onRowEditInit(product: Product) {
-    this.clonedProducts[product.id as string] = { ...product };
+  onRowEditInit(product: IgetUser) {
+    this.clonedProducts[product._id as string] = { ...product };
   }
 
-  onRowEditSave(product: Product) {
-    // if (product?.price > 0) {
-    //   delete this.clonedProducts[product.id as string];
-    //   this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Product is updated' });
-    // } else {
-    //   this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Invalid Price' });
-    // }
+  onRowEditSave(product: IgetUser) {
+    const { name, email, roles, isActive, _id } = product
+    const newDate = { name, email, isActive, roles }
+    delete this.clonedProducts[_id as string];
+    this.editUser.emit({ id: _id ?? '', date: newDate })
   }
 
-  onRowEditCancel(product: Product, index: number) {
-    this.products[index] = this.clonedProducts[product.id as string];
-    delete this.clonedProducts[product.id as string];
+  onRowEditCancel(product: IgetUser, index: number) {
+    this.products[index] = this.clonedProducts[product._id as string];
+    delete this.clonedProducts[product._id as string];
   }
-
-  // getSeverity(status: string) {
-  //   switch (status) {
-  //     case 'INSTOCK':
-  //       return 'success';
-  //     case 'LOWSTOCK':
-  //       return 'warn';
-  //     case 'OUTOFSTOCK':
-  //       return 'danger';
-  //   }
-  // }
+  getSeverity(status: boolean | string) {
+    if (status === true || status === 'true') return 'success';
+    if (status === false || status === 'false') return 'warn';
+    if (status === 'admin') return 'danger';
+    return 'info';
+  }
 }

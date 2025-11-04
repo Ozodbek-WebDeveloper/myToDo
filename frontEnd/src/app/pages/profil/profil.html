@@ -1,10 +1,11 @@
 <div class="bg-gray-50 dark:bg-gray-900">
-
   <div class="profile-container">
     <div class=" flex gap-2 mx-auto text-white mt-10">
       <span routerLink="/" class="cursor-pointer  hover:text-blue-400">home</span>
       <span class="cursor-pointer  hover:text-blue-400" (click)="viewPage = 0">settings</span>
+      @if (user.roles === 'admin') {
       <span class="cursor-pointer hover:text-blue-400" (click)="viewPage = 1">users</span>
+      }
     </div>
 
     @if (viewPage === 0) {
@@ -48,9 +49,9 @@
       </div>
     </div>
     }
-    @if (viewPage === 1) {
+    @if (viewPage === 1 && user.roles === 'admin') {
     <div>
-      <app-user-table />
+      <app-user-table (editUser)="updateUser($event)" [users]="users" />
     </div>
     }
   </div>
