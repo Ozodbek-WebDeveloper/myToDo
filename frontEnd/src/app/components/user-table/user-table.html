@@ -72,7 +72,7 @@
                         <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
                             (click)="onRowEditCancel(product, ri)" text rounded severity="secondary"></button>
                         <button *ngIf="!editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-trash"
-                            (click)="onRowEditCancel(product, ri)" text rounded severity="secondary"></button>
+                            (click)="onDelete(product)" text rounded severity="secondary"></button>
                     </div>
                 </td>
             </tr>

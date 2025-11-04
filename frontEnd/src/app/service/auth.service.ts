@@ -80,5 +80,14 @@ export class AuthService {
     }
   }
 
+  async deleteUser(id: string) {
+    try {
+      const res = await axiosInstanse.delete(`/auth/user/${id}`)
+      return res.data
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
 }
 

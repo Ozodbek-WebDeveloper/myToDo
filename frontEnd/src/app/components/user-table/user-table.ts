@@ -21,6 +21,7 @@ import { AuthService } from '../../service/auth.service';
 export class UserTable implements OnInit {
   @Input() users: IgetUser[] = []
   @Output() editUser = new EventEmitter<{ id: string, date: IgetUser }>()
+  @Output() deleteUser = new EventEmitter()
   products!: IgetUser[];
   statuses!: SelectItem[];
   roles!: { label: string; value: string }[]
@@ -60,5 +61,10 @@ export class UserTable implements OnInit {
     if (status === false || status === 'false') return 'warn';
     if (status === 'admin') return 'danger';
     return 'info';
+  }
+
+  onDelete(product: IgetUser) {
+    const id = product._id
+    this.deleteUser.emit(id)
   }
 }

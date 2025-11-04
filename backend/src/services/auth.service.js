@@ -123,6 +123,15 @@ class authService {
       throw new Error(error.message)
     }
   }
+
+  async delete(id) {
+    try {
+      const res = await authModel.findByIdAndDelete(id)
+      return res
+    } catch (error) {
+      throw new Error(error.messages)
+    }
+  }
 }
 
 module.exports = new authService();

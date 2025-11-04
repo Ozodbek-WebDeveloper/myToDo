@@ -102,4 +102,30 @@ export class Profil implements OnInit {
       })
     }
   }
+
+  async deleteUser(id: string) {
+    try {
+      const res = await this.auth.deleteUser(id)
+      if (res?.data !== null) {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'User Successfuly delete.'
+        })
+      } else {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Warning',
+          detail: 'Something went wrong, please try again.'
+        })
+      }
+    } catch (error) {
+      console.log(error);
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Failed to delete user.'
+      })
+    }
+  }
 }

@@ -51,7 +51,7 @@
     }
     @if (viewPage === 1 && user.roles === 'admin') {
     <div>
-      <app-user-table (editUser)="updateUser($event)" [users]="users" />
+      <app-user-table (deleteUser)="deleteUser($event)" (editUser)="updateUser($event)" [users]="users" />
     </div>
     }
   </div>

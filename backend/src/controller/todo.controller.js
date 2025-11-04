@@ -4,6 +4,10 @@ class todoController {
   async create(req, res) {
     try {
       const auther = req.user.id;
+      const isActive = req.user.isActive
+      if (!isActive) {
+        return res.status(401).json({ message: 'User not activated' })
+      }
       const data = req.body;
       const post = await todoService.create(auther, data);
       res.status(200).json(post);
