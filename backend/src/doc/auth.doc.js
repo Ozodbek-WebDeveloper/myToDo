@@ -95,6 +95,82 @@
  *         description: Unauthorized – invalid or missing token
  */
 
+/**
+ * @swagger
+ * /auth/getUsers:
+ *   get:
+ *     summary: Barcha foydalanuvchilarni olish
+ *     tags: [Auth]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Foydalanuvchilar ro'yxati muvaffaqiyatli olindi
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   _id:
+ *                     type: string
+ *                     example: "672eabf1b38a17a9d33c5b21"
+ *                   name:
+ *                     type: string
+ *                     example: "Ozodbek"
+ *                   email:
+ *                     type: string
+ *                     example: "ozodbek@example.com"
+ *                   roles:
+ *                     type: string
+ *                     example: "admin"
+ *                   avatar:
+ *                     type: string
+ *                     example: "http://localhost:8000/static/avatar123.jpg"
+ *                   isActive:
+ *                     type: boolean
+ *                     example: true
+ *                   settings:
+ *                     type: object
+ *                     properties:
+ *                       themeDark:
+ *                         type: boolean
+ *                         example: false
+ *       401:
+ *         description: Token noto‘g‘ri yoki yo‘q
+ *       500:
+ *         description: Server xatosi
+ *
+ * /auth/user/{id}:
+ *   delete:
+ *     summary: Foydalanuvchini o‘chirish
+ *     tags: [Auth]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: O‘chiriladigan foydalanuvchi ID raqami
+ *     responses:
+ *       200:
+ *         description: Foydalanuvchi muvaffaqiyatli o‘chirildi
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: User deleted successfully
+ *       404:
+ *         description: Foydalanuvchi topilmadi
+ *       500:
+ *         description: Server xatosi
+ */
+
+
 //-***************************************** todo start**************************************
 /**
  * @swagger
