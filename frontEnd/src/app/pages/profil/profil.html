@@ -17,8 +17,6 @@
         @if (isEditing) {<fa-icon (click)="AvatarClick()"
           class="text-blue-500 !texr-xs absolute right-28 bottom-12 border bg-white py-1 px-1 rounded-full cursor-pointer"
           [icon]="faPen" />}
-
-
         <input type="file" #fileInput hidden accept="images/*" (change)="selectedFile($event)">
 
         <h2>{{ user.name }}</h2>
@@ -44,7 +42,8 @@
           <input pInputText type="text" disabled [(ngModel)]="user.roles" />
         </div>
         @if (isEditing) {
-        <button pButton type="button" (click)="saveChanges()" class="w-full !text-white">Save Changes</button>
+        <button pButton type="button" (click)="saveChanges()" class="w-full !text-white">{{isLoading? 'Loading...' :
+          'Save Changes'}}</button>
         }
       </div>
     </div>

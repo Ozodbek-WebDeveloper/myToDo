@@ -1,6 +1,8 @@
 <div class="bg-gray-50 dark:bg-gray-900">
   <div class="md:h-screen flex flex-col w-full">
     <app-navbar (profil)="gotoProfil()" (logout)="logout()" />
+
+
     <div class="flex flex-col justify-between h-full">
       <div class="flex flex-col px-6 py-8 lg:py-0">
         <div class="text-white flex items-center justify-end mb-4">
@@ -9,10 +11,27 @@
             <fa-icon [icon]="faAdd" />Create
           </button>
         </div>
-        <div class="w-full bg-white rounded-lg shadow dark:border xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-          <ul></ul>
+        <div class="w-full bg-white rounded-lg shadow dark:border  dark:bg-gray-800 p-6">
+          @if(!isLoading){
           <app-todo-card (edit)="findOne($event)" (delete)="deleteTodo($event)" [todos]="pagingDate"
             [users]="users"></app-todo-card>
+          }
+          @else{
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            @for(i of [1,2,3,4]; track i){
+            <div class=" h-[130px] rounded-xl bg-white animate-pulse p-4">
+              <div class="h-6 bg-gray-700 rounded w-3/4 mb-3"></div>
+              <div class="h-4 bg-gray-700 rounded w-full mb-2"></div>
+              <div class="h-4 bg-gray-700 rounded w-5/6 mb-4"></div>
+
+              <div class="flex justify-between items-center mt-auto">
+                <div class="h-4 bg-gray-700 rounded w-16"></div>
+                <div class="h-4 bg-gray-700 rounded w-10"></div>
+              </div>
+            </div>
+            }
+          </div>
+          }
         </div>
       </div>
       @if (pagingDate.total > 9) {

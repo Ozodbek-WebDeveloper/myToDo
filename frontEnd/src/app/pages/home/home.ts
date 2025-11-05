@@ -12,11 +12,12 @@ import { NavbarComponent } from "../../components/navbar/navbar";
 import { ConfirmDialog } from '../../components/confirm-dialog/confirm-dialog';
 import { AuthService } from '../../service/auth.service';
 import { Router } from '@angular/router';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader'
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [TodoCard, FontAwesomeModule, Dialog, ToastModule, Paging, NavbarComponent, ConfirmDialog],
+  imports: [TodoCard, FontAwesomeModule, Dialog, ToastModule, Paging, NavbarComponent, ConfirmDialog, NgxSkeletonLoaderModule],
   templateUrl: './home.html',
   styleUrls: ['./home.scss'],
   providers: [MessageService]
@@ -48,12 +49,13 @@ export class Home implements OnInit {
   }
   totalPage: number = 0
   users: IgetUser[] | any = null
-  //
+  isLoading: boolean = true
+  //************************************* functions */
   async getTodos() {
     const res = await this.todo.getTodo(this.paging)
     this.pagingDate = res
     this.totalPage = Math.ceil((this.pagingDate.total ?? 0) / (this.paging.size ?? 1));
-
+    this.isLoading = false
   }
 
   async createTodo(data: Itodo) {

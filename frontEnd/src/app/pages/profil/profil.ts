@@ -35,7 +35,7 @@ export class Profil implements OnInit {
   faPen = faPen
   preview: string | null = null
   viewPage: number = 0
-
+  isLoading:boolean = false
   async me() {
     const res = await this.auth.getMe()
     this.user = res
