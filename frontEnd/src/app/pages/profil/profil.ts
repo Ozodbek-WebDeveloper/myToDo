@@ -35,7 +35,7 @@ export class Profil implements OnInit {
   faPen = faPen
   preview: string | null = null
   viewPage: number = 0
-  isLoading:boolean = false
+  isLoading: boolean = false
   async me() {
     const res = await this.auth.getMe()
     this.user = res
@@ -107,6 +107,7 @@ export class Profil implements OnInit {
     try {
       const res = await this.auth.deleteUser(id)
       if (res?.data !== null) {
+        await this.getAllUser()
         this.messageService.add({
           severity: 'success',
           summary: 'Success',

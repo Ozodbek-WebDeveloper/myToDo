@@ -24,6 +24,10 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/activated-page/activated-page').then(c => c.ActivatedPage)
     },
     {
+        path: 'chat',
+        loadComponent: () => import('./pages/chat/chat').then(c => c.Chat)
+    },
+    {
         path: '**',
         redirectTo: '',
     },
