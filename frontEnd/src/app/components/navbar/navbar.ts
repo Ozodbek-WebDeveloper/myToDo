@@ -6,6 +6,7 @@ import { MenuItem } from 'primeng/api';
 import { Auth } from '../../state/auth';
 import { IgetUser } from '../../models/user';
 import { environment } from '../../../environments/environment';
+import { Router } from '@angular/router';
 // 
 
 @Component({
@@ -18,15 +19,14 @@ export class NavbarComponent implements OnInit {
   items: MenuItem[] = [];
   user: IgetUser | null = null
   baseApi = environment.baseApi + '/static/'
-  
-  constructor(private auth: Auth) {
+
+  constructor(private auth: Auth, private route: Router) {
     this.auth.user$.subscribe(user => {
       this.user = user
     })
   }
   @Output() logout = new EventEmitter<void>();
   @Output() profil = new EventEmitter<void>();
-
   ngOnInit(): void {
     this.items = [
       {
@@ -35,8 +35,9 @@ export class NavbarComponent implements OnInit {
         command: () => this.goToProfile()
       },
       {
-        label: 'Settings',
+        label: 'chat',
         icon: 'pi pi-cog',
+        command: () => this.route.navigate(['chat'])
       },
       {
         separator: true,
@@ -56,5 +57,5 @@ export class NavbarComponent implements OnInit {
   logoutEmit() {
     this.logout.emit();
   }
-  
-}
+
+} 

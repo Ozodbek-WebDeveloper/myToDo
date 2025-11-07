@@ -1,4 +1,5 @@
 import { Injectable, NgZone } from '@angular/core';
+import axios from '../api/axios.config';
 import { Subject, Observable } from 'rxjs';
 import { io, Socket } from 'socket.io-client';
 
@@ -30,12 +31,22 @@ export class SocketService {
   }
 
   // 💡 sendMessage funksiyasini to'g'irladim (argument nomini 'message' ga)
-  sendMessage(message: { senderId: string, receiverId: string, text: string }): void {
+  sendMessage(message: { senderId: string, text: string }): void {
     this.socket.emit('sendMessage', message);
   }
 
   getNewMessage(): Observable<any> {
     return this.messageSubject.asObservable();
+  }
+
+  async getHistory() {
+    try {
+      const res = await axios.get('/chat/history')
+      return res.data
+    } catch (error) {
+      console.log(error);
+
+    }
   }
 
 }

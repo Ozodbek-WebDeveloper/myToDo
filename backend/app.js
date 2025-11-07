@@ -13,7 +13,7 @@ const cors = require("cors");
 const path = require('path');
 const app = express();
 const swaggerDocs = require("./swagger");
-const initializeSocketIO = require('./src/services/message.service')
+const messageService = require('./src/services/message.service')
 //----------- middelware
 app.use(
   cors({
@@ -44,7 +44,7 @@ const io = new Server(server, {
   }
 })
 
-initializeSocketIO(io)
+messageService.initializeSocketIO(io)
 
 
 

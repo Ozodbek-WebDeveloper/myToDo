@@ -1,43 +1,42 @@
-// src/socket/socketHandler.js (Yangi fayl)
 
-const Message = require("../models/message.model"); // Message Modelni import qiling
+const Message = require("../models/message.model");
 
-// Bu funksiya asosiy server faylidan "io" obyekti (Socket.IO serveri) ni qabul qiladi
-const initializeSocketIO = (io) => {
+class messageService {
+	initializeSocketIO = (io) => {
+		io.on("connection", (socket) => {
+			console.log("Socket.IO: Yangi foydalanuvchi ulandi:", socket.id);
 
-    io.on("connection", (socket) => {
-        console.log("Socket.IO: Yangi foydalanuvchi ulandi:", socket.id);
+			socket.on("sendMessage", async (msg) => {
+				console.log("Socket.IO: Clientdan xabar keldi:", msg);
 
-        // ----------------- Xabar Yuborish Logikasi -----------------
-        socket.on("sendMessage", async (msg) => {
-            console.log("Socket.IO: Clientdan xabar keldi:", msg);
+				try {
+					const newMessage = new Message({
+						senderId: msg.senderId,
+						text: msg.text
+					});
 
-            try {
-                const newMessage = new Message({
-                    senderId: msg.senderId,      // 💡 msg.senderId dan olish
-                    receiverId: msg.receiverId,  // 💡 msg.receiverId dan olish
-                    text: msg.text               // 💡 msg.text dan olish
-                });
+					const savedMessage = await newMessage.save();
+					io.emit("message", savedMessage);
+					console.log("Socket.IO: Xabar saqlandi va tarqatildi:", savedMessage._id);
 
-                const savedMessage = await newMessage.save();
-                io.emit("message", savedMessage);
-                console.log("Socket.IO: Xabar saqlandi va tarqatildi:", savedMessage._id);
+				} catch (error) {
+					console.error("Socket.IO Xatosi: Xabarni saqlash/yuborish:", error.message);
+					// ...
+				}
+			});
 
-            } catch (error) {
-                console.error("Socket.IO Xatosi: Xabarni saqlash/yuborish:", error.message);
-                // ...
-            }
-        });
+			socket.on("disconnect", () => {
+				console.log("Socket.IO: Foydalanuvchi uzildi:", socket.id);
+			});
 
-        // ----------------- Uzilish Logikasi -----------------
-        socket.on("disconnect", () => {
-            console.log("Socket.IO: Foydalanuvchi uzildi:", socket.id);
-        });
+			// socket.on("typing", (user) => { ... });
+			// socket.on("joinRoom", (room) => { ... });
+		});
+	};
 
-        // ----------------- Boshqa Chat Logikalari (qo'shimcha) -----------------
-        // socket.on("typing", (user) => { ... });
-        // socket.on("joinRoom", (room) => { ... });
-    });
-};
-
-module.exports = initializeSocketIO;
+	async getHistory() {
+		const res = await Message.find()
+		return res
+	}
+}
+module.exports = new messageService();

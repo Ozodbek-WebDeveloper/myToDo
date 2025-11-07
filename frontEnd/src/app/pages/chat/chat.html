@@ -1,59 +1,56 @@
-<!-- <div class="bg-gray-50 dark:bg-gray-900">
-  <div class="md:h-screen flex flex-col w-full">
-    <div class="flex flex-col gap-2 flex-1 w-[90%] mx-auto py-4">
-      <div class="bg-white w-full rounded-lg p-4 h-full">
-        Sallom
-        {{messages}}
-      </div>
-
-      <div class="bg-white flex gap-2 justify-between rounded-lg px-2 py-4">
-        <p-floatlabel class="w-full" variant="on">
-          <input pInputText id="on_label" [(ngModel)]="messageContent" autocomplete="off"
-            class="w-full !bg-white !text-black" />
-          <label for="on_label" class="!bg-white">On Label</label>
-        </p-floatlabel>
-        <p-button label="send" (click)="sendMessage()" severity="info" icon="pi pi-send" iconPos="right" />
-      </div>
+<div class="bg-gray-50 dark:bg-gray-700 min-h-screen flex flex-col items-center justify-center p-4">
+  <div class="flex flex-col w-full md:w-[60%] h-[85vh] rounded-2xl shadow-xl overflow-hidden">
+    <!-- Header -->
+    <div class="p-4 bg-blue-500 text-white font-semibold text-lg text-center">
+      💬 Live Chat
     </div>
-  </div>
-</div> -->
 
-<div class="chat-main-container">
+    <!-- Message List -->
+    <div class="message-list flex-1 overflow-y-auto p-4 bg-gray-100 dark:bg-gray-900 scroll-smooth space-y-3">
 
-  <div class="message-list">
-    <h3>Live Chat</h3>
+      @for (msg of messages; track msg) {
+      <div class="flex items-center mb-2"
+        [ngClass]="{'justify-end': msg.senderId === currentUserId, 'justify-start': msg.senderId !== currentUserId}">
 
-    @for(msg of messages; track msg){
-    <div [ngClass]="{'my-message': msg.senderId === currentUserId, 'other-message': msg.senderId !== currentUserId}"
-      class="message-bubble-container">
-      <div class="message-bubble">
-        <strong class="sender-info">
-          {{ msg.senderId === currentUserId ? 'Siz:' : 'Suhbatdosh:' }}
-        </strong>
+        <!-- Avatar -->
+        <img [src]="getAvatar(msg.senderId)" alt="avatar" class="w-8 h-8 rounded-full object-cover shadow" [ngClass]="{
+          'order-2 ml-2': msg.senderId === currentUserId,
+          'order-1 mr-1': msg.senderId !== currentUserId
+        }" />
 
-        <p class="message-content">{{ msg.text }}</p>
 
-        <!-- <small class="message-time">
-          {{ msg.createdAt ? (msg.createdAt | date:'shortTime') : 'Hozir' }}
-        </small> -->
+        <!-- Bubble -->
+        <div class="relative max-w-[75%]  shadow transition-all" [ngClass]="{
+          'text-white rounded-br-none': msg.senderId === currentUserId,
+          'order-2': msg.senderId !== currentUserId
+        }">
+          <div class="relative py-2 px-3  rounded-2xl shadow transition-all" [ngClass]="{
+          'bg-blue-500 text-white rounded-br-none ': msg.senderId === currentUserId,
+          'bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200 rounded-bl-none order-0': msg.senderId !== currentUserId
+        }">
+            <p class="text-sm leading-none break-words">{{ msg.text }}</p>
+          </div>
+          <small class="block text-[10px] leading-none  mt-1" [ngClass]="{
+                    'text-gray-200 text-right ': msg.senderId === currentUserId,
+                    'text-gray-400': msg.senderId !== currentUserId
+                  }">
+            {{ msg.createdAt ? (msg.createdAt | date:'shortTime') : 'Hozir' }}
+          </small>
+        </div>
       </div>
+      }
     </div>
-    }
 
+    <!-- Input Area -->
+    <div class="bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 p-3 flex gap-2 items-center">
+      <p-floatlabel class="w-full" variant="on">
+        <input pInputText id="on_label" [(ngModel)]="messageContent" autocomplete="off" (keyup.enter)="sendMessage()"
+          placeholder="Xabar yozing..."
+          class="w-full !bg-white dark:!bg-gray-700 !text-gray-900 dark:!text-gray-100 rounded-xl px-3 py-2 focus:ring-2 focus:ring-blue-400 outline-none transition" />
+      </p-floatlabel>
 
-    <!-- <div *ngIf="messages.length === 0" class="no-messages">
-            Hozircha xabar yo'q. Birinchi bo'lib yozing!
-        </div> -->
-  </div>
-
-  <div class="input-area">
-    <p-floatLabel class="input-float-label">
-      <input pInputText id="message-input" type="text" [(ngModel)]="messageContent" (keyup.enter)="sendMessage()"
-        placeholder="Xabar yozing..." />
-      <label for="message-input">Xabar</label>
-    </p-floatLabel>
-
-    <p-button label="Yuborish" (onClick)="sendMessage()" [disabled]="!messageContent.trim()" icon="pi pi-send"
-      class="send-button"></p-button>
+      <p-button label="Yuborish" (click)="sendMessage()" [disabled]="!messageContent.trim()" severity="info"
+        icon="pi pi-send" iconPos="right" class="transition-transform hover:scale-105" />
+    </div>
   </div>
 </div>

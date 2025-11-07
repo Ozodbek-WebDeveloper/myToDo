@@ -1,22 +1,22 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgClass, DatePipe } from '@angular/common'; // DatePipe qo'shildi!
+import { NgClass, DatePipe } from '@angular/common';
 
-// PrimeNG imports
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { FloatLabelModule } from 'primeng/floatlabel';
 
 import { SocketService } from '../../service/socket.service';
 import { Subscription } from 'rxjs';
-
-// Xabarni ifodalovchi interface (Backend Modelidan kelgan maydonlarni o'z ichiga olishi kerak)
+import { Auth } from '../../state/auth';
+import { AuthService } from '../../service/auth.service';
+import { IgetUser } from '../../models/user';
+import { environment } from '../../../environments/environment';
 interface Message {
-  _id?: string;        // 💡 MongoDB IDsi
+  _id?: string;
   senderId: string;
-  receiverId: string
   text: string;
-  createdAt?: Date;  // 💡 Backend tomonidan beriladi
+  createdAt?: string
 }
 
 @Component({
@@ -27,48 +27,69 @@ interface Message {
     ButtonModule,
     FloatLabelModule,
     NgClass,
-    DatePipe // 👈 MUHIM: DatePipe endi mavjud!
+    DatePipe
   ],
   templateUrl: './chat.html',
   styleUrls: ['./chat.scss'],
   standalone: true,
 })
 export class Chat implements OnInit, OnDestroy {
-  currentUserId: string = '60c72b2f90a9d100155b46e3';
-  testReceiverId: string = '60c72b2f90a9d100155b46f4';
+  currentUserId: string | null = '';
   messageContent: string = '';
   messages: Message[] = [];
   messageSubscription: Subscription | undefined;
-
-  constructor(private socketService: SocketService) { }
+  currentUser: IgetUser | null = null
+  users: IgetUser[] = []
+  baseApi = environment.baseApi + '/static/'
+  constructor(private socketService: SocketService, private auth: Auth, private authService: AuthService) { }
 
   ngOnInit() {
-    // 💡 Real-time xabarlarga obuna bo'lish
+    this.authService.getMe()
+    this.getAllUser()
     this.messageSubscription = this.socketService.getNewMessage().subscribe(
       (message: Message) => {
         console.log('FRONTEND TEST: Xabar komponentga yetib keldi:', message);
-        // Massivni almashtirish orqali Change Detection'ni majburlaymiz (xabarlar ko'rinishi uchun)
         this.messages = [...this.messages, message];
       }
     );
+
+    this.auth.user$.subscribe(user => {
+      this.currentUser = user
+      this.currentUserId = user?._id ?? ''
+    })
+
+    this.getHistory()
   }
+
+  getAvatar(id: string) {
+    const user = this.users.find(u => u._id === id);
+    // agar user mavjud bo‘lsa va avatar bo‘sh bo‘lmasa, this.baseApi + user.avatar, aks holda default
+    return user && user.avatar ? this.baseApi + user.avatar : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnSA1zygA3rubv-VK0DrVcQ02Po79kJhXo_A&s';
+  }
+
 
   sendMessage(): void {
     if (this.messageContent.trim()) {
       const messageToSend: Message = {
-        senderId: this.currentUserId,
-        receiverId: this.testReceiverId,
+        senderId: this.currentUserId ?? '',
         text: this.messageContent.trim()
       };
-
-      // Xabarni yuborish
       this.socketService.sendMessage(messageToSend);
-
       this.messageContent = '';
     }
   }
 
   ngOnDestroy(): void {
     this.messageSubscription?.unsubscribe();
+  }
+
+  async getHistory() {
+    const res = await this.socketService.getHistory()
+    this.messages = res
+  }
+
+  async getAllUser() {
+    const res = await this.authService.getAllUser()
+    this.users = res
   }
 }

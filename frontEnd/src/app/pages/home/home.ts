@@ -91,8 +91,6 @@ export class Home implements OnInit {
   }
 
   gotoProfil() {
-    console.log('test');
-
     this.route.navigate(['/profil'])
   }
 
