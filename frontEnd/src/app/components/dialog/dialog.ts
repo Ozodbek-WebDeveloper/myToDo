@@ -1,12 +1,13 @@
 import { Component, Output, EventEmitter, Input, OnInit, SimpleChanges } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faClose } from '@fortawesome/free-solid-svg-icons';
-import { Itodo } from '../../models/user';
+import { IgetUser, Itodo } from '../../models/user';
 import { FormsModule } from '@angular/forms';
-
+import { Auth } from '../../state/auth';
+import { ButtonModule } from 'primeng/button';
 @Component({
   selector: 'app-dialog',
-  imports: [FontAwesomeModule, FormsModule],
+  imports: [FontAwesomeModule, FormsModule, ButtonModule],
   templateUrl: './dialog.html',
   styleUrl: './dialog.scss',
   standalone: true
@@ -18,10 +19,6 @@ export class Dialog implements OnInit {
   @Output() editTodo = new EventEmitter<Itodo>()
   @Input() editDate: any = {}
   @Input() isEditing: boolean = false
-
-  ngOnInit(): void {
-  }
-
   faClose = faClose
 
   createTodo: Itodo = {
@@ -29,6 +26,15 @@ export class Dialog implements OnInit {
     description: null,
     priority: ''
   };
+  users!: IgetUser | null
+  ngOnInit(): void {
+  }
+
+  constructor(private auth: Auth) {
+    this.auth.user$.subscribe(user => {
+      this.users = user
+    })
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['editDate'] && this.editDate && Object.keys(this.editDate).length > 0) {
@@ -50,4 +56,12 @@ export class Dialog implements OnInit {
   close() {
     this.closeDialog.emit()
   }
+  maskEmail(email: string): string {
+    const [name, domain] = email.split('@');
+    if (name.length <= 2) {
+      return name[0] + '***@' + domain;
+    }
+    return name[0] + '***' + name[name.length - 1] + '@' + domain;
+  }
+
 }

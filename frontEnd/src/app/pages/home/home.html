@@ -12,6 +12,12 @@
           </button>
         </div>
         <div class="w-full bg-white rounded-lg shadow dark:border  dark:bg-gray-800 p-6">
+          @if (pagingDate.total === 0) {
+          <div class="flex items-center justify-center  gap-2 text-xl text-white">
+            <fa-icon [icon]="faSearch" />
+            <span>Hech narsa topilmadi.</span>
+          </div>
+          } @else {
           @if(!isLoading){
           <app-todo-card (edit)="findOne($event)" (delete)="deleteTodo($event)" [todos]="pagingDate"
             [users]="users"></app-todo-card>
@@ -32,6 +38,8 @@
             }
           </div>
           }
+          }
+
         </div>
       </div>
       @if (pagingDate.total > 9) {

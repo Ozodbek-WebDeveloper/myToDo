@@ -6,7 +6,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 import { Dialog } from '../../components/dialog/dialog';
 import { ToastModule } from 'primeng/toast'
 import { MessageService } from 'primeng/api'
-import { faAdd, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
+import { faAdd, faChevronLeft, faChevronRight, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { Paging } from "../../components/paging/paging";
 import { NavbarComponent } from "../../components/navbar/navbar";
 import { ConfirmDialog } from '../../components/confirm-dialog/confirm-dialog';
@@ -37,6 +37,7 @@ export class Home implements OnInit {
   faAdd = faAdd
   faLeft = faChevronLeft
   faRight = faChevronRight
+  faSearch = faSearch
   pagingDate: { total: number; res: any[] } = { total: 0, res: [] };
   findOneDate = {}
   isEditing = false
@@ -90,24 +91,6 @@ export class Home implements OnInit {
     }
   }
 
-  gotoProfil() {
-    this.route.navigate(['/profil'])
-  }
-
-  openCreateDialog() {
-    this.showDialog = true
-  }
-
-  closeDialog() {
-    this.showDialog = false;
-    this.isEditing = false;
-    this.findOneDate = {}
-  }
-
-  changePage(page: number) {
-    this.paging.page = page
-    this.getTodos()
-  }
 
   async deleteTodo(id: string) {
     try {
@@ -187,5 +170,23 @@ export class Home implements OnInit {
     this.users = await this.auth.getAllUser()
   }
 
+  // helper 
+  gotoProfil() {
+    this.route.navigate(['/profil'])
+  }
 
+  openCreateDialog() {
+    this.showDialog = true
+  }
+
+  closeDialog() {
+    this.showDialog = false;
+    this.isEditing = false;
+    this.findOneDate = {}
+  }
+
+  changePage(page: number) {
+    this.paging.page = page
+    this.getTodos()
+  }
 }

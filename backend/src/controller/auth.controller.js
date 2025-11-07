@@ -5,12 +5,15 @@ class authController {
   async register(req, res) {
     try {
       const { name, email, password } = req.body;
+      if (!name || !email || !password) {
+        return res.status(400).json({ message: 'name,email,password  required' });
+      }
       const data = await authService.register(name, email, password);
       res.cookie("refreshToken", data.token.refreshToken, {
         httpOnly: true,
         maxAge: 30 * 24 * 60 * 60 * 1000,
       });
-      res.status(200).json(data);
+      return res.status(200).json(data);
     } catch (error) {
       return res.status(500).json(error);
     }
