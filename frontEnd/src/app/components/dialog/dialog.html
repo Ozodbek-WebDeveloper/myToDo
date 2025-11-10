@@ -53,9 +53,9 @@
         </span>
       </p>
 
-      <button
-        class="bg-cyan-500 hover:bg-cyan-600 cursor-pointer text-white font-semibold px-6 py-3 rounded-lg transition-all">
-        Send Activation Link
+      <button (click)="sendEmail()" class="bg-cyan-500  text-white font-semibold px-6 py-3 rounded-lg transition-all"
+        [ngClass]="isLoadingMail? 'cursor-not-allowed opacity-60' : 'cursor-pointer hover:bg-cyan-600  '">
+        {{isLoadingMail ? 'Loading...' : ' Send Activation Link'}}
       </button>
     </div>
     }

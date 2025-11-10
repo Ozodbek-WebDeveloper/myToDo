@@ -88,8 +88,6 @@ class authController {
 
   async editMe(req, res) {
     try {
-      console.log(req);
-
       const file = req.files?.avatar;
       const id = req.params.id;
       const body = req.body;
@@ -120,6 +118,17 @@ class authController {
       res.status(500).json(error)
       console.log(error);
 
+    }
+  }
+
+  async activeLink(req, res) {
+    try {
+      const id = req.params.id
+      const data = await authService.sendActiveLink(id)
+      return res.status(200).json({ message: 'please chek your email' })
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json(error)
     }
   }
 }

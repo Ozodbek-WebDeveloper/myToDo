@@ -5,9 +5,10 @@ import { IgetUser, Itodo } from '../../models/user';
 import { FormsModule } from '@angular/forms';
 import { Auth } from '../../state/auth';
 import { ButtonModule } from 'primeng/button';
+import { NgClass } from '@angular/common';
 @Component({
   selector: 'app-dialog',
-  imports: [FontAwesomeModule, FormsModule, ButtonModule],
+  imports: [FontAwesomeModule, FormsModule, ButtonModule, NgClass],
   templateUrl: './dialog.html',
   styleUrl: './dialog.scss',
   standalone: true
@@ -17,8 +18,10 @@ export class Dialog implements OnInit {
   @Output() addTodo = new EventEmitter<Itodo>()
   @Output() closeDialog = new EventEmitter<boolean>()
   @Output() editTodo = new EventEmitter<Itodo>()
+  @Output() sendLink = new EventEmitter()
   @Input() editDate: any = {}
-  @Input() isEditing: boolean = false
+  @Input() isEditing!: boolean 
+  @Input() isLoadingMail!: boolean
   faClose = faClose
 
   createTodo: Itodo = {
@@ -56,6 +59,11 @@ export class Dialog implements OnInit {
   close() {
     this.closeDialog.emit()
   }
+
+  sendEmail() {
+    this.sendLink.emit()
+  }
+
   maskEmail(email: string): string {
     const [name, domain] = email.split('@');
     if (name.length <= 2) {

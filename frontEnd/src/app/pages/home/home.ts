@@ -13,7 +13,7 @@ import { ConfirmDialog } from '../../components/confirm-dialog/confirm-dialog';
 import { AuthService } from '../../service/auth.service';
 import { Router } from '@angular/router';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader'
-
+import { Auth } from '../../state/auth';
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -24,7 +24,11 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader'
 })
 
 export class Home implements OnInit {
-  constructor(private todo: TodoService, private messageService: MessageService, private auth: AuthService, private route: Router) { }
+  constructor(private todo: TodoService, private messageService: MessageService, private auth: AuthService, private route: Router, private me: Auth) {
+    this.me.user$.subscribe(u => {
+      this.user = u
+    })
+  }
 
   ngOnInit(): void {
     this.getTodos()
@@ -51,6 +55,8 @@ export class Home implements OnInit {
   totalPage: number = 0
   users: IgetUser[] | any = null
   isLoading: boolean = true
+  user!: IgetUser | null
+  isLoadingMail!: boolean
   //************************************* functions */
   async getTodos() {
     const res = await this.todo.getTodo(this.paging)
@@ -170,7 +176,19 @@ export class Home implements OnInit {
     this.users = await this.auth.getAllUser()
   }
 
-  // helper 
+  async sendLinkEmail() {
+    this.isLoadingMail = true
+    const res = await this.auth.sendLinkEmail(this.user?._id ?? '')
+    if (res) {
+      this.messageService.add({
+        severity: 'success',
+        summary: 'success',
+        detail: res.message
+      })
+    }
+    this.isLoadingMail = false
+  }
+  // helper  functions
   gotoProfil() {
     this.route.navigate(['/profil'])
   }

@@ -17,7 +17,7 @@ class authService {
     const userDto = new UserDto(user);
     await mailService.sendMail(
       email,
-      `${process.env.BASE_URL}activated/${user.id}`
+      `${process.env.BASE_URL}/activated/${user.id}`
     );
     const token = tokenService.generateToken({ ...userDto });
 
@@ -131,6 +131,18 @@ class authService {
     } catch (error) {
       throw new Error(error.messages)
     }
+  }
+
+  async sendActiveLink(userID) {
+    const user = await authModel.findById(userID)
+    if (!user) {
+      throw new Error('User not found');
+    }
+    const res = await mailService.sendMail(
+      user.email,
+      `${process.env.BASE_URL}/activated/${user._id}`
+    )
+    return res
   }
 }
 

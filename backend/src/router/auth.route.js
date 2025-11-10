@@ -11,5 +11,6 @@ route.get("/activeted/:id", authController.activeted);
 route.get("/me", authMiddleware.verifyToken, authController.me);
 route.post("/edit/:id", authMiddleware.verifyToken, authController.editMe);
 route.get('/getUsers', authMiddleware.verifyToken, authController.getAll)
-route.delete('/user/:id', authController.detele)
+route.delete('/user/:id', authMiddleware.verifyToken, authController.detele)
+route.post('/activeLink/:id', authController.activeLink)
 module.exports = route;

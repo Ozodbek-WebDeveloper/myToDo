@@ -89,5 +89,14 @@ export class AuthService {
     }
   }
 
+  async sendLinkEmail(id: string) {
+    try {
+      const res = await axios.post(`${environment.apiUrl}/auth/activeLink/${id}`)
+      return res.data
+    } catch (error) {
+      console.log(error);
+
+    }
+  }
 }
 

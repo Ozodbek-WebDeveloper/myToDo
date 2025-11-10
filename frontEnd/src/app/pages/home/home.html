@@ -51,8 +51,9 @@
   </div>
 </div>
 @if (showDialog) {
-<app-dialog [isEditing]="isEditing" [editDate]="findOneDate" (editTodo)="submitEdit($event)"
-  (closeDialog)="closeDialog()" (addTodo)="createTodo($event)"></app-dialog>
+<app-dialog [isLoadingMail]="isLoadingMail" [isEditing]="isEditing" [editDate]="findOneDate"
+  (sendLink)="sendLinkEmail()" (editTodo)="submitEdit($event)" (closeDialog)="closeDialog()"
+  (addTodo)="createTodo($event)"></app-dialog>
 } @if (confirmDialog) {
 <app-confirm-dialog />
 }
