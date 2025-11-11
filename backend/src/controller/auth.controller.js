@@ -65,7 +65,7 @@ class authController {
     try {
       const id = req.params.id;
       const data = await authService.activated(id);
-      res.status(200).json(data);
+      return res.status(200).json(data);
     } catch (error) {
       res.status(500).json(error);
       console.log(error);

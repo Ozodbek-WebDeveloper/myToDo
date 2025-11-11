@@ -95,7 +95,15 @@ export class AuthService {
       return res.data
     } catch (error) {
       console.log(error);
+    }
+  }
 
+  async activetedEmail(id: string) {
+    try {
+      const res = await axios.get(`${environment.apiUrl}/auth/activeted/${id}`)
+      return res.data
+    } catch (error) {
+      console.log(error);
     }
   }
 }
