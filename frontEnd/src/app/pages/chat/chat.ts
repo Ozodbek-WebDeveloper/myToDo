@@ -12,6 +12,9 @@ import { Auth } from '../../state/auth';
 import { AuthService } from '../../service/auth.service';
 import { IgetUser } from '../../models/user';
 import { environment } from '../../../environments/environment';
+import { FaIconComponent } from "@fortawesome/angular-fontawesome";
+import { faHome } from '@fortawesome/free-solid-svg-icons';
+import { RouterLink } from "@angular/router";
 interface Message {
   _id?: string;
   senderId: string;
@@ -27,8 +30,10 @@ interface Message {
     ButtonModule,
     FloatLabelModule,
     NgClass,
-    DatePipe
-  ],
+    DatePipe,
+    FaIconComponent,
+    RouterLink
+],
   templateUrl: './chat.html',
   styleUrls: ['./chat.scss'],
   standalone: true,
@@ -41,6 +46,7 @@ export class Chat implements OnInit, OnDestroy {
   currentUser: IgetUser | null = null
   users: IgetUser[] = []
   baseApi = environment.baseApi + '/static/'
+  faHome = faHome
   constructor(private socketService: SocketService, private auth: Auth, private authService: AuthService) { }
 
   ngOnInit() {
