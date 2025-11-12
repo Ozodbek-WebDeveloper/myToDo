@@ -27,8 +27,12 @@ api.interceptors.response.use((res) => res, async (error) => {
     originalRequest._retry = true
 
     const response = await axios.get(`${environment.apiUrl}/auth/refresh`, { withCredentials: true })
-    localStorage.setItem('accessToken',response.data.accessToken)
+    const newToken = response.data.accessToken
+    localStorage.setItem('accessToken', newToken)
+    originalRequest.headers.Authorization = `Bearer ${newToken}`
+    return api(originalRequest)
   }
+  return Promise.reject(error);
 })
 
 export default api
