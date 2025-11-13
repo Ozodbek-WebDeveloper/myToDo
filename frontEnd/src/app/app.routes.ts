@@ -1,6 +1,8 @@
-import { Routes } from '@angular/router';
+import { Routes, } from '@angular/router';
 import { authGuard } from './service/auth.guard';
 import { Home } from './pages/home/home'
+    
+// ... qolgan kod
 export const routes: Routes = [
     {
         path: '',
@@ -32,3 +34,4 @@ export const routes: Routes = [
         redirectTo: '',
     },
 ];
+
